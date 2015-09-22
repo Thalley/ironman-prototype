@@ -16,7 +16,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*">
-        <TableRow>
+        <TableRow android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,7 +39,9 @@
                 android:text="Z-Axis"
                 android:gravity="center"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,50 +61,107 @@
                 android:textSize="20sp"
                 android:gravity="center"/>
         </TableRow>
+    </TableLayout>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="26sp"
 
             android:text="Direction"
 
-            android:gravity="center"
-            android:layout_marginTop="30dp" />
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/directionDegrees"
             android:textSize="20sp"
-            android:gravity="center"/>
+            android:gravity="center_horizontal"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:id="@+id/direction"
-            android:gravity="center"/>
+            android:gravity="center_horizontal"/>
 
-        <TextView
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+
+        android:text="Current Position"
+
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:id="@+id/position"
+        android:gravity="center_horizontal"/>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Up"
+            android:id="@+id/up"
+            android:layout_weight="1"
+            android:onClick="changePosition" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Down"
+            android:id="@+id/down"
+            android:layout_weight="1"
+            android:onClick="changePosition" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Left"
+            android:id="@+id/left"
+            android:layout_weight="1"
+            android:onClick="changePosition" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Right"
+            android:id="@+id/right"
+            android:layout_weight="1"
+            android:onClick="changePosition" />
+    </TableRow>
+
+    <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="26sp"
 
             android:text="Targetable Objects:"
 
-            android:gravity="center"
-            android:layout_marginTop="30dp" />
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/targetableObjects"
             android:textSize="20sp"
-            android:gravity="center"/>
+            android:gravity="center_horizontal"/>
 
         <TextView
-            android:layout_marginTop="100dp"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/objects"
             android:textSize="14sp"
-            android:gravity="center"/>
-    </TableLayout>
+            android:gravity="center_horizontal"/>
 </LinearLayout>

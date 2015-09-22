@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,13 +17,14 @@ public class MainActivity extends Activity implements SensorEventListener{
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private Sensor mMagnetic;
-    private TextView tvX, tvY, tvZ, tvDD, tvD, tvTargetableObjects, tvAllObjects;
+    private TextView tvX, tvY, tvZ, tvDD, tvD, tvTargetableObjects, tvAllObjects, tvPosition;
     private float[] magnetic, acceleration;
     private boolean haveacc, havemag;
     float[] Rm = new float[16];
     float[] I = new float[16];
     ArrayList<SmartObject> smartObjects = new ArrayList<>();
     StringBuilder b;
+    Point position = new Point(5, 5);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class MainActivity extends Activity implements SensorEventListener{
         tvD= (TextView)findViewById(R.id.direction);
         tvTargetableObjects = (TextView)findViewById(R.id.targetableObjects);
         tvAllObjects = (TextView)findViewById(R.id.objects);
+        tvPosition = (TextView)findViewById(R.id.position);
+
+        tvPosition.setText(position.toString());
 
         // Sensors
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -43,17 +48,17 @@ public class MainActivity extends Activity implements SensorEventListener{
         mMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         // Smart Objects
-        smartObjects.add(new SmartObject("Lamp 1", 0.0));
-        smartObjects.add(new SmartObject("Lamp 2", 35.0));
-        smartObjects.add(new SmartObject("Coffee Maker", 45.0));
-        smartObjects.add(new SmartObject("Stereo", -85.0));
-        smartObjects.add(new SmartObject("TV", 130.0));
-        smartObjects.add(new SmartObject("Garage Door", -100.0));
+        smartObjects.add(new SmartObject("Lamp 1", new Point(0,0)));
+        smartObjects.add(new SmartObject("Lamp 2", new Point(2,4)));
+        smartObjects.add(new SmartObject("Coffee Maker", new Point(6,7)));
+        smartObjects.add(new SmartObject("Stereo", new Point(9,9)));
+        smartObjects.add(new SmartObject("TV", new Point(5,0)));
+        smartObjects.add(new SmartObject("Garage Door", new Point(0,5)));
 
         // Show smart objects on main screen
         b = new StringBuilder();
         for (SmartObject so : smartObjects){
-            b.append(so.mName+ "(" + (int)so.mLocation + "), ");
+            b.append(so.getName() + so.getLocation().toString() + ", ");
         }
         tvAllObjects.setText(b.toString());
     }
@@ -158,14 +163,43 @@ public class MainActivity extends Activity implements SensorEventListener{
         double deltaDownDegree = degree - noise;
         ArrayList<SmartObject> targetableObjects = new ArrayList<>();
         for (SmartObject so : smartObjects){
-            if(so.mLocation < deltaUpDegree && so.mLocation > deltaDownDegree)
+            if(getAngle(so.getLocation()) < deltaUpDegree && getAngle(so.getLocation()) > deltaDownDegree)
                 targetableObjects.add(so);
         }
         b = new StringBuilder();
         for (SmartObject so : targetableObjects){
-            b.append(so.mName+"\n");
+            b.append(so.getName()+"\n");
         }
         tvTargetableObjects.setText(b.toString());
+
+    }
+
+    /**
+     * Calculates the angle between our position and a smart device's position
+     * @param target the targeted smart device
+     * @return the angle in degrees
+     */
+    private float getAngle(Point target) {
+        float angle = (float) Math.toDegrees(Math.atan2(target.getY() - position.getY(), target.getX() - position.getX()));
+        return angle;
+    }
+
+    public void changePosition(View view){
+        switch (view.getId()){
+            case R.id.up:
+                position.setX(position.getX() + 1);
+                break;
+            case R.id.down:
+                position.setX(position.getX() - 1);
+                break;
+            case R.id.right:
+                position.setY(position.getY() + 1);
+                break;
+            case R.id.left:
+                position.setY(position.getY() - 1);
+                break;
+        }
+        tvPosition.setText(position.toString());
 
     }
 }

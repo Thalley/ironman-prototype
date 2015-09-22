@@ -1,13 +1,21 @@
 package com.example.thalley.sensorprototype;
 
 /**
- * Created by Thalley on 21-09-2015.
+ * A smart device
  */
 public class SmartObject {
-    String mName;
-    double mLocation; //as a degree
-    public SmartObject(String name, double location){
+    private String mName;
+    private Point mLocation; //as a degree
+    public SmartObject(String name, Point location){
         mName = name;
         mLocation = location;
+    }
+
+    public String getName(){
+        return mName;
+    }
+
+    public Point getLocation(){
+        return mLocation;
     }
 }
