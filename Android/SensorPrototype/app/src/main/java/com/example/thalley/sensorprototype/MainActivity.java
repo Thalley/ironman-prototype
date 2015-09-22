@@ -135,19 +135,19 @@ public class MainActivity extends Activity implements SensorEventListener{
         if(degree > -180)
             direction = "South";
         if(degree > -158.5)
-            direction = "Southeast";
+            direction = "Southwest";
         if(degree > -112.5)
-            direction = "East";
+            direction = "West";
         if(degree > -67.5)
-            direction = "Northeast";
+            direction = "Northwest";
         if(degree > -22.5)
             direction = "North";
         if(degree > 22.5)
-            direction = "Northwest";
+            direction = "Northeast";
         if(degree > 67.5)
-            direction = "West";
+            direction = "East";
         if(degree > 112.5)
-            direction = "Southwest";
+            direction = "Southeast";
         if(degree > 158.5)
             direction = "South";
         return direction;
