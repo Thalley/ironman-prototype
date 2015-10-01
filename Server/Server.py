@@ -1,11 +1,11 @@
 import SimpleHTTPServer
 import SocketServer
 
-#PORT = 8080
+port = int(os.environ.get("PORT", 5000))
 
 Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 
-httpd = SocketServer.TCPServer(("", PORT), Handler)
+httpd = SocketServer.TCPServer(("", port), Handler)
 
-print "serving at port", PORT
+print "serving at port", port
 httpd.serve_forever()
