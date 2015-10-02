@@ -14,8 +14,8 @@ class Device(object):
         self.actions = actions
 
 device1 = Device(0, 'First Device', (0,1), ['turnOn', 'turnOff'])
-device2 = Device(1, 'Second Device', (0,1), ['turnOn', 'turnOff'])
-encodedDevice = json.dumps(device1.__dict__)
+device2 = Device(1, 'Second Device', (2,5), ['turnOn', 'turnOff'])
+devices = [device1, device2]
 
 class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
@@ -32,10 +32,9 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            self.wfile.write("<html><head><title>Title goes here.</title></head>")
-            self.wfile.write("<body><p>This is a test.</p>")
-            self.wfile.write("<p>You accessed path: %s</p>" % self.path)
-            self.wfile.write("</body></html>")
+            for device in devices:
+                encodedDevice = json.dumps(device.__dict__)
+                self.wfile.write(encodedDevice)
         else:
             self.send_error(404,'File Not Found: %s' % self.path)
 
