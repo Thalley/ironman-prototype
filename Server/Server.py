@@ -1,9 +1,22 @@
 import SimpleHTTPServer
 import SocketServer
 import os
+import json
 
 port = int(os.environ.get("PORT", 5000))
 rootdir = '/Server/'
+
+class Device(object):
+    def __init__(self, id, name, coords, actions):
+        self.id = id
+        self.name = name
+        self.coords = coords
+        self.actions = actions
+
+device1 = Device(0, 'First Device', (0,1), ['turnOn', 'turnOff'])
+device2 = Device(1, 'Second Device', (0,1), ['turnOn', 'turnOff'])
+encodedDevice = json.dumps(device1.__dict__)
+
 class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
