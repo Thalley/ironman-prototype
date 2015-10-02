@@ -32,9 +32,8 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
 
-            for device in devices:
-                encodedDevice = json.dumps(device.__dict__)
-                self.wfile.write(encodedDevice)
+            json_string = json.dumps([device.__dict__ for device in devices])
+            self.wfile.write(json_string)
         else:
             self.send_error(404,'File Not Found: %s' % self.path)
 
