@@ -3,6 +3,7 @@ import SocketServer
 import os
 import cgi
 import json
+from bs4 import BeautifulSoup
 
 port = int(os.environ.get("PORT", 5000))
 rootdir = '/Server/'
@@ -51,9 +52,12 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         ident = postvars.get('id', "NA")[0]
         if action=="NA" or ident=="NA":
             return None
-        self.wfile.write(ident + " did action " + action) # replace with whatever action to do
 
-
+        color = 'green' if (action=='turnOn') else 'red'
+        soup = BeautifulSoup(open(os.curdir + os.sep + rootdir + 'index.html'), "html.parser")
+        soup.find(id=ident)['style'] = "background-color: " + color
+        with open(os.curdir + os.sep + rootdir + 'index.html', "wb") as file:
+            file.write(str(soup))
 
 customHandler = CustomHandler
 
