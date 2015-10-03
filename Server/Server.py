@@ -31,7 +31,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             f.close()
         elif self.path=='/devices/':
             self.send_response(200)
-            self.send_header('Content-type', 'text/html') 
+            self.send_header('Content-type', 'application/json') 
             self.end_headers()
 
             json_string = json.dumps([device.__dict__ for device in devices])
