@@ -29,7 +29,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(f.read())
             f.close()
-        elif self.path=='/devices/':
+        elif self.path=='/devices/' or self.path=='/devices':
             self.send_response(200)
             self.send_header('Content-type', 'application/json') 
             self.end_headers()
