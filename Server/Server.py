@@ -50,7 +50,9 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             postvars = {}
         action = postvars.get('action', "NA")[0]
         ident = postvars.get('id', "NA")[0]
-        if action=="NA" or ident=="NA":
+
+        if action=="N" or ident=="N":
+            self.send_response(400)
             return None
 
         color = 'green' if (action=='turnOn') else 'red'
@@ -58,6 +60,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         soup.find(id=ident)['style'] = "background-color: " + color
         with open(os.curdir + os.sep + rootdir + 'index.html', "wb") as file:
             file.write(str(soup))
+        self.send_response(200)
 
 customHandler = CustomHandler
 
