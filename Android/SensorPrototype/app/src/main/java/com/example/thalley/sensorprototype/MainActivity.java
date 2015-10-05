@@ -89,7 +89,7 @@ public class MainActivity extends Activity implements SensorEventListener{
                 // Using the rotation matrix, get orientation in radians
                 SensorManager.getOrientation(Rm, result);
                 // Get degrees from radius along the x-axis
-                double directionDegrees = radianToDegree(result[0]);
+                double directionDegrees = Math.toDegrees(result[0]);
                 //Update direction in the UI
                 tvDD.setText((int)directionDegrees +"");
                 tvD.setText(degreeToDirection(directionDegrees));
@@ -114,15 +114,6 @@ public class MainActivity extends Activity implements SensorEventListener{
         // Be sure to unregister the sensor when the activity pauses.
         super.onPause();
         mSensorManager.unregisterListener(this);
-    }
-
-    /**
-     * Converts radians to degrees
-     * @param radian the degree in radians
-     * @return the degree between -180 and 180
-     */
-    private double radianToDegree(float radian){
-        return 180/Math.PI * radian;
     }
 
     /**
@@ -162,16 +153,19 @@ public class MainActivity extends Activity implements SensorEventListener{
         double deltaUpDegree = degree + noise;
         double deltaDownDegree = degree - noise;
         ArrayList<SmartObject> targetableObjects = new ArrayList<>();
+
+        // Find all objects in that direction
         for (SmartObject so : smartObjects){
             if(getAngle(so.getLocation()) < deltaUpDegree && getAngle(so.getLocation()) > deltaDownDegree)
                 targetableObjects.add(so);
         }
+
+        // Print all objects found
         b = new StringBuilder();
         for (SmartObject so : targetableObjects){
             b.append(so.getName()+"\n");
         }
         tvTargetableObjects.setText(b.toString());
-
     }
 
     /**
@@ -179,11 +173,17 @@ public class MainActivity extends Activity implements SensorEventListener{
      * @param target the targeted smart device
      * @return the angle in degrees
      */
-    private float getAngle(Point target) {
-        float angle = (float) Math.toDegrees(Math.atan2(target.getY() - position.getY(), target.getX() - position.getX()));
+    private double getAngle(Point target) {
+        double angle = Math.toDegrees(Math.atan2(target.getX() - position.getX(),
+                                                 target.getY() - position.getY()
+                                                 ));
         return angle;
     }
 
+    /**
+     * onClick method for direction buttons. Changes the current position up, down, left or right
+     * @param view the button being pressed
+     */
     public void changePosition(View view){
         switch (view.getId()){
             case R.id.up:
@@ -200,6 +200,5 @@ public class MainActivity extends Activity implements SensorEventListener{
                 break;
         }
         tvPosition.setText(position.toString());
-
     }
 }
