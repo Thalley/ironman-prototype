@@ -8,12 +8,22 @@ from bs4 import BeautifulSoup
 port = int(os.environ.get("PORT", 5000))
 rootdir = '/Server/'
 
-class Device(object):
-    def __init__(self, id, name, coords, actions):
+class Device(object):    
+    def __init__(self, id, name, coords, actions, state = 'off'):
         self.id = id
         self.name = name
         self.coords = coords
         self.actions = actions
+        self.state = state
+
+    def canPerformAction(self, action):
+      return action in self.actions
+
+    def performAction(self, action):
+      if action == 'turnOn':
+        self.state = 'on'
+      elif action == 'turnOff':
+        self.state = 'off'
 
 device1 = Device(0, 'Lamp at Couches', (6.50, 3.35), ['turnOn', 'turnOff'])
 device2 = Device(1, 'Lamp at Dinner Table', (2.68, 1.92), ['turnOn', 'turnOff'])
@@ -55,7 +65,15 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
             self.send_response(400)
             return None
 
-        color = 'green' if (action=='turnOn') else 'red'
+        matching_devices = [ d for d in devices if d.id == int(ident) ]
+        device = matching_devices[0] if len(matching_devices) > 0 else None
+        if device == None or not device.canPerformAction(action):
+          self.send_response(400)
+          return None
+
+        device.performAction(action)
+        
+        color = 'green' if device.state == 'on' else 'red'
         soup = BeautifulSoup(open(os.curdir + os.sep + rootdir + 'index.html'), "html.parser")
         soup.find(id=ident)['style'] = "background-color: " + color
         with open(os.curdir + os.sep + rootdir + 'index.html', "wb") as file:
