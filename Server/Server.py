@@ -15,8 +15,8 @@ class Device(object):
         self.coords = coords
         self.actions = actions
 
-device1 = Device(0, 'First Device', (0,1), ['turnOn', 'turnOff'])
-device2 = Device(1, 'Second Device', (2,5), ['turnOn', 'turnOff'])
+device1 = Device(0, 'Lamp at Couches', (6.50, 3.35), ['turnOn', 'turnOff'])
+device2 = Device(1, 'Lamp at Dinner Table', (2.68, 1.92), ['turnOn', 'turnOff'])
 devices = [device1, device2]
 
 class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
