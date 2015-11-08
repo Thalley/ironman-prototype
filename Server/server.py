@@ -26,5 +26,4 @@ def get_devices():
 
 #Starts the server
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
+    app.run(host="localhost", port=5000, debug=True)
