@@ -9,7 +9,7 @@ def map_id_to_action(id):
     if mapping:
         return mapping[0][0]
     else:
-        return None
+        raise LookupError("The action ID \"" + id + "\" could not be found in the mappings")
 
 #Maps from action to HomePort ID
 def map_action_to_id(action):
@@ -17,4 +17,4 @@ def map_action_to_id(action):
     if mapping:
         return mapping[0][0]
     else:
-        return None
+        raise LookupError("The action \"" + action + "\" could not be found in the mappings")

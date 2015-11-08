@@ -13,8 +13,11 @@ app = Flask(__name__)
 def do_action():
     action = request.form['action']
     id = request.form['id']
-    homeport_adapter.do_homeport_action(id, action)
-    return "Action " + action + " performed on device with ID " + id
+    status_code = homeport_adapter.do_homeport_action(id, action)
+    if(status_code == 200):
+    	return "Action \"" + action + "\" performed on device with ID " + id
+    else:
+    	return "HomePort server returned status code " + status_code
 
 #Gets the list of devices
 @app.route('/devices', methods=['GET'])

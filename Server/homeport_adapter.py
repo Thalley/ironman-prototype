@@ -21,4 +21,4 @@ def do_homeport_action(device_id, action):
     body_content = "<?xml version='1.0' encoding='UTF-8'?><value>" + mapper.map_action_to_id(action) + "</value>"
     connection.request('PUT', '/phidget/173111/output/' + device_id, body_content)
     result = connection.getresponse()
-    return result
+    return result.status
