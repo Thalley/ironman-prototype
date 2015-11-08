@@ -3,6 +3,7 @@
 from flask import Flask, jsonify, request
 from device import Device
 import json
+import homeport_adapter
  
 #Server code begins
 app = Flask(__name__)
@@ -12,14 +13,13 @@ app = Flask(__name__)
 def do_action():
     action = request.form['action']
     id = request.form['id']
-    print(action)
-    print(id)
+    homeport_adapter.do_homeport_action(id, action)
     return "Action " + action + " performed on device with ID " + id
 
 #Gets the list of devices
 @app.route('/devices', methods=['GET'])
 def get_devices():
-    return jsonify(devices=[d.serialize() for d in devices])
+    return jsonify(devices=[d.serialize() for d in homeport_adapter.request_homeport_devices()])
 
 #Starts the server
 if __name__ == '__main__':
