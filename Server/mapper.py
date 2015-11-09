@@ -1,7 +1,7 @@
 #Maps actions between server and HomePort
 
 #The mappings as tuples
-MAPPINGS = [('0', 'off'), ('1', 'on')]
+MAPPINGS = [('0', 'turnOff'), ('1', 'turnOn')]
 
 #Maps from HomePort ID to action
 def map_id_to_action(id):
