@@ -20,7 +20,7 @@ def request_homeport_devices():
     connection.request('GET', '/devices')
     xml_response = connection.getresponse()
     if(xml_response.status == 200):
-        return get_devices_from_xml(xml_response)
+        return __get_devices_from_xml(xml_response.read())
     else: 
         return xml_response #returns the erroneous response 
 
@@ -55,15 +55,14 @@ def __get_devices_from_xml(xml):
             devices.append(Device(services[i].attrib['id'], 
                                   'Lamp at Couches', \
                                   (6.50, 3.35), \
-                                  get_actions_from_xml(services[i].attrib['unit']), \
+                                  __get_actions_from_xml(services[i].attrib['unit']), \
                                   services[i].attrib['value_url']))
         elif i == 1:
             devices.append(Device(services[i].attrib['id'], 
                                   'Lamp at Dinner Table', \
                                   (2.68, 1.92), \
-                                  get_actions_from_xml(services[i].attrib['unit']), \
+                                  __get_actions_from_xml(services[i].attrib['unit']), \
                                   services[i].attrib['value_url']))
-        
     return devices
 
 # Homeport outputs actions as "0/1", this converts this to ['turnOff', 'turnOn']

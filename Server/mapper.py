@@ -5,9 +5,9 @@ MAPPINGS = [('0', 'turnOff'), ('1', 'turnOn')]
 
 #Maps from HomePort ID to action
 def map_id_to_action(id):
-    mapping = [tup for tup in MAPPINGS if tup[0] == id]
+    mapping = [tup for tup in MAPPINGS if tup[0] == str(id)]
     if mapping:
-        return mapping[0][0]
+        return mapping[0][1]
     else:
         raise LookupError("The action ID \"" + id + "\" could not be found in the mappings")
 
