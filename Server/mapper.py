@@ -5,7 +5,7 @@ MAPPINGS = [('0', 'turnOff'), ('1', 'turnOn')]
 
 #Maps from HomePort ID to action
 def map_id_to_action(id):
-    mapping = [tup for tup in MAPPINGS if tup[1] == action]
+    mapping = [tup for tup in MAPPINGS if tup[0] == id]
     if mapping:
         return mapping[0][0]
     else:
