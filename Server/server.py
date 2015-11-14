@@ -19,7 +19,10 @@ def do_action():
         abort(400)
 
     #Find device by ID
-    devices = homeport_adapter.request_homeport_devices()
+    devices = homeport_adapter.DEVICES;
+    if(devices == []):
+        devices = homeport_adapter.request_homeport_devices()
+    
     deviceByID = next((dev for dev in devices if str(dev.id) == id), None)
 
     #No device found
@@ -44,4 +47,4 @@ def get_devices():
 
 #Starts the server
 if __name__ == '__main__':
-    app.run(host="localhost", port=5000, debug=False)
+    app.run(host="localhost", port=5000, debug=True)

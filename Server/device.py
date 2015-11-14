@@ -11,12 +11,6 @@ class Device(object):
     def canPerformAction(self, action):
       return action in self.actions
 
-    def performAction(self, action):
-      if action == 'turnOn':
-        self.state = 'on'
-      elif action == 'turnOff':
-        self.state = 'off'
-
     # Makes the object serializable
     def serialize(self):
       return {
