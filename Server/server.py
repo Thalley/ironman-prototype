@@ -9,6 +9,10 @@ import homeport_adapter
 #Server code begins
 app = Flask(__name__)
 
+DEVICES = []
+for count in xrange(5):
+    DEVICES.append(Device(str(count), "dev" + str(count), (count,1), ['turnOn', 'turnOff'], 'URL'))
+
 #Performs an action on a device
 @app.route('/', methods=['POST'])
 def do_action():
@@ -19,7 +23,7 @@ def do_action():
         abort(400)
 
     #Find device by ID
-    devices = homeport_adapter.request_homeport_devices()
+    devices = DEVICES #homeport_adapter.request_homeport_devices()
     deviceByID = next((dev for dev in devices if str(dev.id) == id), None)
 
     #No device found
@@ -30,17 +34,18 @@ def do_action():
     if(not deviceByID.canPerformAction(action)):
         abort(400)    
 
-    responsecode = homeport_adapter.do_homeport_action(deviceByID, action)
-    #Perform action
-    if(responsecode == 200):
-    	return "Action \"" + action + "\" performed on device \"" + deviceByID.name + "\"" 
-    else:
-    	abort(responsecode)
+    return "Done"
+    # responsecode = homeport_adapter.do_homeport_action(deviceByID, action)
+    # #Perform action
+    # if(responsecode == 200):
+    # 	return "Action \"" + action + "\" performed on device \"" + deviceByID.name + "\"" 
+    # else:
+    # 	abort(responsecode)
 
 #Gets the list of devices
 @app.route('/devices', methods=['GET'])
 def get_devices():
-    return jsonify(devices=[d.serialize() for d in homeport_adapter.request_homeport_devices()])
+    return jsonify(devices=[d.serialize() for d in DEVICES])
 
 #Starts the server
 if __name__ == '__main__':
